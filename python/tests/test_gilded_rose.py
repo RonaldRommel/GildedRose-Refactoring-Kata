@@ -91,6 +91,22 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(items[0].sell_in, 4)
         self.assertEqual(items[0].quality, 33)
 
+    def test_aged_brie_increases_twice_after_sell_date(self):
+        """Aged Brie gains 2 quality per day after sell date has passed."""
+        items = [Item("Aged Brie", 0, 20)]
+        gr = GildedRose(items)
+        gr.update_quality()
+        self.assertEqual(items[0].sell_in, -1)
+        self.assertEqual(items[0].quality, 22)
+
+    def test_backstage_pass_increases_by_2_within_10_days(self):
+        """Backstage pass gains 2 quality when sell_in is between 6 and 10 days."""
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 10, 30)]
+        gr = GildedRose(items)
+        gr.update_quality()
+        self.assertEqual(items[0].sell_in, 9)
+        self.assertEqual(items[0].quality, 32)
+
 
 if __name__ == "__main__":
     unittest.main()
